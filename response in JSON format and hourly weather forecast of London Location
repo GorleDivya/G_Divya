@@ -1,0 +1,70 @@
+import requests
+
+API_KEY = "b6907d289e10d714a6e88b30761fae22"
+BASE_URL = "https://samples.openweathermap.org/data/2.5/forecast/hourly?q=London,us&appid=" + API_KEY
+
+def get_weather():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(BASE_URL)
+    if response.status_code == 200:
+        data = response.json()
+        for hour_data in data['list']:
+            if date in hour_data['dt_txt']:
+                temperature = hour_data['main']['temp']
+                print(f"Temperature on {date}: {temperature} °C")
+                return
+        print("Weather data not found for the specified date.")
+    else:
+        print("Failed to retrieve weather data. Please try again later.")
+
+def get_wind_speed():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(BASE_URL)
+    if response.status_code == 200:
+        data = response.json()
+        for hour_data in data['list']:
+            if date in hour_data['dt_txt']:
+                wind_speed = hour_data['wind']['speed']
+                print(f"Wind speed on {date}: {wind_speed} m/s")
+                return
+        print("Wind speed data not found for the specified date.")
+    else:
+        print("Failed to retrieve weather data. Please try again later.")
+
+def get_pressure():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(BASE_URL)
+    if response.status_code == 200:
+        data = response.json()
+        for hour_data in data['list']:
+            if date in hour_data['dt_txt']:
+                pressure = hour_data['main']['pressure']
+                print(f"Pressure on {date}: {pressure} hPa")
+                return
+        print("Pressure data not found for the specified date.")
+    else:
+        print("Failed to retrieve weather data. Please try again later.")
+
+def main():
+    while True:
+        print("\nChoose an option:")
+        print("1. Get weather")
+        print("2. Get Wind Speed")
+        print("3. Get Pressure")
+        print("0. Exit")
+
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            get_weather()
+        elif choice == "2":
+            get_wind_speed()
+        elif choice == "3":
+            get_pressure()
+        elif choice == "0":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+main()
